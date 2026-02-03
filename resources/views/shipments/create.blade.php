@@ -5,6 +5,16 @@
 @section('content')
 <h2 class="mb-4">➕ Add New Shipment</h2>
 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+    </div>
+@endif
+
 <form method="POST" action="{{ route('shipments.store') }}" class="bg-white p-4 rounded shadow-sm">
     @csrf
 
@@ -41,6 +51,26 @@
         <label class="form-label">Price (€)</label>
         <input type="number" name="price" class="form-control" required>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label">User</label>
+        <select name="user_id" class="form-control" required>
+            @foreach($users as $user)
+                <option value="{{ $user->id }}">{{ $user->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-control" required>
+            <option value="pending">Pending</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="canceled">Canceled</option>
+        </select>
+    </div>
+
 
     <div class="mb-3">
         <label class="form-label">Details</label>

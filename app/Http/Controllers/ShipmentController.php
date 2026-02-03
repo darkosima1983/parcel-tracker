@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Shipments;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewShipmentRequest;
+use App\Models\User;
 class ShipmentController extends Controller
 {
     /**
@@ -21,18 +22,26 @@ class ShipmentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+   public function create()
     {
-        return view('shipments.create');
+        $users = User::all(); // dohvat svih korisnika
+        return view('shipments.create', compact('users'));
     }
+
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(NewShipmentRequest $request)
     {
-        dd($request->validated());
+        $data = $request->validated();
+        Shipments::create($data);
+
+        return redirect()->route('shipments.index')
+                        ->with('success', 'Shipment created successfully.');
     }
+
 
     /**
      * Display the specified resource.
