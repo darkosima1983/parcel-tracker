@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Shipments extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'title',
         'from_city',

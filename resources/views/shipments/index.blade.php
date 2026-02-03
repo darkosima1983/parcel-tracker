@@ -1,0 +1,47 @@
+@extends('layouts.layout')
+
+@section('title', 'All Shipments')
+
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>📦 All Shipments</h2>
+    <a href="{{ route('shipments.create') }}" class="btn btn-primary">
+        + Add Shipment
+    </a>
+</div>
+
+@if($shipments->isEmpty())
+    <div class="alert alert-info">
+        No shipments found.
+    </div>
+@else
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Status</th>
+                    <th>Price (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($shipments as $shipment)
+                    <tr>
+                        <td>{{ $shipment->title }}</td>
+                        <td>{{ $shipment->from_city }}, {{ $shipment->from_state }}</td>
+                        <td>{{ $shipment->to_city }}, {{ $shipment->to_state }}</td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                {{ $shipment->status }}
+                            </span>
+                        </td>
+                        <td>{{ $shipment->price }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
+@endsection

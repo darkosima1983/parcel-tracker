@@ -4,31 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Shipments;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\NewShipmentRequest;
 class ShipmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index()
     {
-       die('index');
+        $shipments = Shipments::all();
+
+        return view('shipments.index', compact('shipments'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        die('create');
+        return view('shipments.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(NewShipmentRequest $request)
     {
-        //
+        dd($request->validated());
     }
 
     /**
