@@ -21,4 +21,20 @@ class Shipments extends Model
         'details',
     ];
 
+    // Optional: status constants
+        const STATUS_IN_PROGRESS = 'in_progress';
+        const STATUS_UNASSIGNED  = 'unassigned';
+        const STATUS_COMPLETED   = 'completed';
+        const STATUS_PROBLEM     = 'problem';
+
+        public static function getStatuses(): array
+        {
+            return [
+                self::STATUS_IN_PROGRESS,
+                self::STATUS_UNASSIGNED,
+                self::STATUS_COMPLETED,
+                self::STATUS_PROBLEM,
+            ];
+        }
+
 }

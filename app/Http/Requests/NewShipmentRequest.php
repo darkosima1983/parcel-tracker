@@ -26,7 +26,7 @@ class NewShipmentRequest extends FormRequest
             'to_city' => 'required|string|max:64',
             'to_state' => 'required|string|max:256',
             'price' => 'required|integer',
-            'status' => 'required|string|max:32',
+            'status' => 'required|string|in:in_progress,unassigned,completed,problem',
             'user_id' => 'required|exists:users,id',
             'details' => 'nullable|string',
         ];
