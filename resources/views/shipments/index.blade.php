@@ -8,6 +8,8 @@
     <a href="{{ route('shipments.create') }}" class="btn btn-primary">
         + Add Shipment
     </a>
+
+
 </div>
 @if(session('success'))
     <div class="alert alert-success">
@@ -29,6 +31,7 @@
                     <th>To</th>
                     <th>Status</th>
                     <th>Price (€)</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +46,11 @@
                             </span>
                         </td>
                         <td>{{ $shipment->price }}</td>
+                        <td>
+                            <a href="{{ route('shipments.show', $shipment->id) }}" class="btn btn-sm btn-info">
+                                View Details
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

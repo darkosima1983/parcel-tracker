@@ -63,12 +63,13 @@
 
     <div class="mb-3">
         <label class="form-label">Status</label>
-        <select name="status" class="form-control" required>
-            <option value="in_progress">In Progress</option>
-            <option value="unassigned">Unassigned</option>
+        <select name="status" class="form-control">
+            <option value="unassigned" selected>Unassigned</option>
+            <option value="in_progress">In progress</option>
             <option value="completed">Completed</option>
             <option value="problem">Problem</option>
         </select>
+
     </div>
 
 

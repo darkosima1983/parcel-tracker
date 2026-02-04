@@ -6,17 +6,24 @@ use App\Models\Shipments;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewShipmentRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 class ShipmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
    public function index()
-    {
-        $shipments = Shipments::all();
+{
+    $shipments = Cache::remember(
+        'shipments_unassigned',
+        now()->addMinutes(10),
+        function () {
+            return Shipments::where('status', 'unassigned')->get();
+        }
+    );
 
-        return view('shipments.index', compact('shipments'));
-    }
+    return view('shipments.index', compact('shipments'));
+}
 
 
     /**
@@ -38,6 +45,8 @@ class ShipmentController extends Controller
         $data = $request->validated();
         Shipments::create($data);
 
+        Cache::forget('shipments_unassigned');
+
         return redirect()->route('shipments.index')
                         ->with('success', 'Shipment created successfully.');
     }
@@ -46,10 +55,11 @@ class ShipmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Shipments $shipments)
+    public function show(Shipments $shipment)
     {
-        //
+        return view('shipments.details', compact('shipment'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -72,6 +82,11 @@ class ShipmentController extends Controller
      */
     public function destroy(Shipments $shipments)
     {
-        //
+        $shipments->delete();
+
+        Cache::forget('shipments_unassigned');
+
+        return back()->with('success', 'Shipment deleted.');
     }
+
 }
