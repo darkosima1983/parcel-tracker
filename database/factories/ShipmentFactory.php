@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shipments>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shipment>
  */
-class ShipmentsFactory extends Factory
+class ShipmentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +23,7 @@ class ShipmentsFactory extends Factory
             'to_city'    => $this->faker->city,                  // Grad primaoca
             'to_state'   => $this->faker->state,                 // Država primaoca
             'price'      => $this->faker->numberBetween(10,500), // Cena
-            'status'     => $this->faker->randomElement(['pending','shipped','delivered','canceled']), // Status
+            'status' => $this->faker->randomElement(['unassigned','in_progress','completed','problem']),
             'user_id' => \App\Models\User::factory(),
             'details'    => $this->faker->paragraph,            // Dodatni detalji
         ];

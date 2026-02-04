@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Shipments extends Model
+class Shipment extends Model
 {
     use HasFactory;
 
-
+     protected $table = 'shipment';
     protected $fillable = [
         'title',
         'from_city',
@@ -27,14 +27,6 @@ class Shipments extends Model
         const STATUS_COMPLETED   = 'completed';
         const STATUS_PROBLEM     = 'problem';
 
-        public static function getStatuses(): array
-        {
-            return [
-                self::STATUS_IN_PROGRESS,
-                self::STATUS_UNASSIGNED,
-                self::STATUS_COMPLETED,
-                self::STATUS_PROBLEM,
-            ];
-        }
+    
 
 }

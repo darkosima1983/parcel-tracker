@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Shipments;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewShipmentRequest;
 use App\Models\User;
@@ -17,9 +17,7 @@ class ShipmentController extends Controller
     $shipments = Cache::remember(
         'shipments_unassigned',
         now()->addMinutes(10),
-        function () {
-            return Shipments::where('status', 'unassigned')->get();
-        }
+        fn()=> Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get()
     );
 
     return view('shipments.index', compact('shipments'));
@@ -43,7 +41,7 @@ class ShipmentController extends Controller
     public function store(NewShipmentRequest $request)
     {
         $data = $request->validated();
-        Shipments::create($data);
+        Shipment::create($data);
 
         Cache::forget('shipments_unassigned');
 
@@ -55,7 +53,7 @@ class ShipmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Shipments $shipment)
+    public function show(Shipment $shipment)
     {
         return view('shipments.details', compact('shipment'));
     }
@@ -64,7 +62,7 @@ class ShipmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Shipments $shipments)
+    public function edit(Shipment $shipment)
     {
         //
     }
@@ -72,7 +70,7 @@ class ShipmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipments $shipments)
+    public function update(Request $request, Shipment $shipment)
     {
         //
     }
@@ -80,9 +78,9 @@ class ShipmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shipments $shipments)
+    public function destroy(Shipment $shipment)
     {
-        $shipments->delete();
+        $shipment->delete();
 
         Cache::forget('shipments_unassigned');
 
