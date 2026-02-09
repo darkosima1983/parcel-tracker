@@ -15,7 +15,7 @@
     </div>
 @endif
 
-<form method="POST" action="{{ route('shipments.store') }}" class="bg-white p-4 rounded shadow-sm">
+<form method="POST" action="{{ route('shipments.store') }}" enctype="multipart/form-data" class="bg-white p-4 rounded shadow-sm">
     @csrf
 
     <div class="mb-3">
@@ -50,6 +50,20 @@
     <div class="mb-3">
         <label class="form-label">Price (€)</label>
         <input type="number" name="price" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Documents</label>
+        <input
+            type="file"
+            name="documents[]"
+            class="form-control"
+            multiple
+            accept=".pdf,.jpg,.jpeg,.png"
+        >
+        <small class="text-muted">
+            You can upload multiple documents (PDF, JPG, PNG)
+        </small>
     </div>
 
     <div class="mb-3">

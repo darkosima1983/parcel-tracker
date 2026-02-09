@@ -27,6 +27,10 @@ class Shipment extends Model
         const STATUS_COMPLETED   = 'completed';
         const STATUS_PROBLEM     = 'problem';
 
-    
+    public function documents()
+    {
+        return $this->hasMany(ShipmentDocument::class);
+    }
+
 
 }

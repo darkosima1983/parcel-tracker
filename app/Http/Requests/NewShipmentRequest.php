@@ -29,6 +29,8 @@ class NewShipmentRequest extends FormRequest
             'status' => 'required|string|in:in_progress,unassigned,completed,problem',
             'user_id' => 'required|exists:users,id',
             'details' => 'nullable|string',
+            'documents' => 'required|array',
+            'documents.*' => 'file|mimes:pdf,doc,docx,jpg,png,webp,jpeg|max:2048',
         ];
     }
 }

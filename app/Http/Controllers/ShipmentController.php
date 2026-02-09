@@ -41,7 +41,34 @@ class ShipmentController extends Controller
     public function store(NewShipmentRequest $request)
     {
         $data = $request->validated();
-        Shipment::create($data);
+        $shipment = Shipment::create($data);
+
+        $fileTypes = [
+            'application/pdf' => 'pdf',
+            'application/msword' => 'document',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'document',
+        ];
+        foreach ($request->file('documents') as $document) {
+            if(str_starts_with($document->getMimeType(), 'image/')){
+                 dd('File type is image');
+            }elseif(array_key_exists($document->getMimeType(), $fileTypes)){
+                $extension = $document->getClientOriginalExtension();
+                $filename = uniqid() . '.' . $extension;
+                $path = $document->storeAs('documents/' . $shipment->id, $filename, 'public');
+                
+
+                // UPIS U BAZU
+            $shipment->documents()->create([
+                'original_name' => $document->getClientOriginalName(),
+                'file_name'     => $filename,
+                'file_path'     => $path,
+                'mime_type'     => $document->getMimeType(),
+                'file_type'     => $fileTypes[$document->getMimeType()],
+                'size'          => $document->getSize(),
+            ]);
+            }
+        }
+       
 
         Cache::forget('shipments_unassigned');
 
