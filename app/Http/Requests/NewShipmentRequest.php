@@ -27,7 +27,7 @@ class NewShipmentRequest extends FormRequest
             'to_state' => 'required|string|max:256',
             'price' => 'required|integer',
             'status' => 'required|string|in:in_progress,unassigned,completed,problem',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|exists:users,id',
             'details' => 'nullable|string',
             'documents' => 'required|array',
             'documents.*' => 'file|mimes:pdf,doc,docx,jpg,png,webp,jpeg|max:2048',

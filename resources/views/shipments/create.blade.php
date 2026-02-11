@@ -49,30 +49,7 @@
 
     <div class="mb-3">
         <label class="form-label">Price (€)</label>
-        <input type="number" name="price" class="form-control" required>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Documents</label>
-        <input
-            type="file"
-            name="documents[]"
-            class="form-control"
-            multiple
-            accept=".pdf,.jpg,.jpeg,.png"
-        >
-        <small class="text-muted">
-            You can upload multiple documents (PDF, JPG, PNG)
-        </small>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">User</label>
-        <select name="user_id" class="form-control" required>
-            @foreach($users as $user)
-                <option value="{{ $user->id }}">{{ $user->name }}</option>
-            @endforeach
-        </select>
+        <input type="number" name="price" class="form-control" step="0.01" required>
     </div>
 
     <div class="mb-3">
@@ -83,14 +60,25 @@
             <option value="completed">Completed</option>
             <option value="problem">Problem</option>
         </select>
-
     </div>
-
-
 
     <div class="mb-3">
         <label class="form-label">Details</label>
         <textarea name="details" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Documents</label>
+        <input
+            type="file"
+            name="documents[]"
+            class="form-control"
+            multiple
+            accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx"
+        >
+        <small class="text-muted">
+            You can upload multiple documents (PDF, JPG, PNG, WebP, Word)
+        </small>
     </div>
 
     <button type="submit" class="btn btn-success">
