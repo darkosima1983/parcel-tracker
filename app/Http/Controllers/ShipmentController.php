@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\NewShipmentRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use App\Models\ShipmentDocument;
+use App\Traits\ImageUploadTrait;
 class ShipmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ImageUploadTrait;
    public function index()
 {
-    $shipments = Cache::remember(
+       
+        $shipments = Cache::remember(
         'shipments_unassigned',
         now()->addMinutes(10),
         fn()=> Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get()
@@ -49,23 +50,34 @@ class ShipmentController extends Controller
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'document',
         ];
         foreach ($request->file('documents') as $document) {
-            if(str_starts_with($document->getMimeType(), 'image/')){
-                 dd('File type is image');
-            }elseif(array_key_exists($document->getMimeType(), $fileTypes)){
+           if(str_starts_with($document->getMimeType(), 'image/')){
+               
+                $filename = $this->uploadImage($document, "documents/{$shipment->id}");
+                $path = "documents/{$shipment->id}/{$filename}";
+                
+                $shipment->documents()->create([
+                    'file_name' => $filename,
+                    'file_path' => $path,
+                    'original_name' => $document->getClientOriginalName(),
+                    'mime_type' => $document->getMimeType(),
+                    'size' => $document->getSize(),
+                    'file_type' => 'image',
+                ]);
+                
+            } elseif(array_key_exists($document->getMimeType(), $fileTypes)){
+                
                 $extension = $document->getClientOriginalExtension();
                 $filename = uniqid() . '.' . $extension;
                 $path = $document->storeAs('documents/' . $shipment->id, $filename, 'public');
                 
-
-                // UPIS U BAZU
-            $shipment->documents()->create([
-                'original_name' => $document->getClientOriginalName(),
-                'file_name'     => $filename,
-                'file_path'     => $path,
-                'mime_type'     => $document->getMimeType(),
-                'file_type'     => $fileTypes[$document->getMimeType()],
-                'size'          => $document->getSize(),
-            ]);
+                $shipment->documents()->create([
+                    'original_name' => $document->getClientOriginalName(),
+                    'file_name' => $filename,
+                    'file_path' => $path,
+                    'mime_type' => $document->getMimeType(),
+                    'file_type' => $fileTypes[$document->getMimeType()],
+                    'size' => $document->getSize(),
+                ]);
             }
         }
        

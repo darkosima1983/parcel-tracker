@@ -20,7 +20,14 @@ class Shipment extends Model
         'user_id',
         'details',
     ];
-
+    public static function booted(){
+        static::created(function($shipment){
+            if($shipment->status === Shipment::STATUS_UNASSIGNED){
+                Cache::forget('shipments_unassigned');
+            }
+        });
+        
+    }
     
         const STATUS_IN_PROGRESS = 'in_progress';
         const STATUS_UNASSIGNED  = 'unassigned';
