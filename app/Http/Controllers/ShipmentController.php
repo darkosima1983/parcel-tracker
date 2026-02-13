@@ -9,20 +9,21 @@ use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use App\Models\ShipmentDocument;
 use App\Traits\ImageUploadTrait;
+use App\Http\Requests\UpdateShipmentRequest;
 class ShipmentController extends Controller
 {
     use ImageUploadTrait;
    public function index()
-{
+    {
+        
+            $shipments = Cache::remember(
+            'shipments_unassigned',
+            now()->addMinutes(10),
+            fn()=> Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get()
+        );
        
-        $shipments = Cache::remember(
-        'shipments_unassigned',
-        now()->addMinutes(10),
-        fn()=> Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get()
-    );
-
-    return view('shipments.index', compact('shipments'));
-}
+        return view('shipments.index', compact('shipments'));
+    }
 
 
     /**
@@ -103,15 +104,18 @@ class ShipmentController extends Controller
      */
     public function edit(Shipment $shipment)
     {
-        //
+        
+        return view('shipments.edit', compact('shipment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shipment $shipment)
+    public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
-        //
+        $shipment->update($request->validated());
+        return redirect()->route('shipments.index')
+                         ->with('success', 'Shipment updated successfully.');
     }
 
     /**
