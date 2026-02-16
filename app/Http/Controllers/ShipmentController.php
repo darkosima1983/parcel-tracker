@@ -31,8 +31,8 @@ class ShipmentController extends Controller
      */
    public function create()
     {
-        $users = User::all(); // dohvat svih korisnika
-        return view('shipments.create', compact('users'));
+         $truckers = User::where('role', User::ROLE_TRUCKER)->get();
+        return view('shipments.create', compact('truckers'));
     }
 
 
@@ -105,7 +105,8 @@ class ShipmentController extends Controller
     public function edit(Shipment $shipment)
     {
         
-        return view('shipments.edit', compact('shipment'));
+       $truckers = User::where('role', User::ROLE_TRUCKER)->get();
+        return view('shipments.edit', compact('shipment', 'truckers'));
     }
 
     /**

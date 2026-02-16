@@ -12,23 +12,19 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+   
+    const ROLE_CLIENT = 'client';
+    const ROLE_ADMIN = 'administrator';
+    const ROLE_TRUCKER = 'trucker';
     protected $fillable = [
         'name',
         'email',
         'password',
         'image',
+        'role',
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    const ALLOWED_ROLES = [self::ROLE_CLIENT, self::ROLE_ADMIN, self::ROLE_TRUCKER];
+    
     protected $hidden = [
         'password',
         'remember_token',
@@ -45,5 +41,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function setRoleAttribute($role)
+    {
+        if (!in_array($role, self::ALLOWED_ROLES)) {
+            throw new \InvalidArgumentException("Invalid role: {$role}");
+        }
+        $this->attributes['role'] = $role;
     }
 }

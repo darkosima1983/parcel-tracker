@@ -68,6 +68,20 @@
         <textarea name="details" class="form-control" rows="3">{{ old('details', $shipment->details) }}</textarea>
     </div>
 
+   <div class="mb-3">
+        <label class="form-label">Trucker ID</label>
+        <input 
+            type="number" 
+            name="user_id" 
+            class="form-control" 
+            value="{{ old('user_id', $shipment->user_id) }}"
+            min="1"
+            required
+        >
+    </div>
+
+
+
     <div class="mb-3">
         <label class="form-label">Documents</label>
         <input
