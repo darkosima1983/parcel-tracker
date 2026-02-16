@@ -67,7 +67,7 @@
         <label class="form-label">Details</label>
         <textarea name="details" class="form-control" rows="3">{{ old('details', $shipment->details) }}</textarea>
     </div>
-
+ 
    <div class="mb-3">
         <label class="form-label">Trucker ID</label>
         <input 
