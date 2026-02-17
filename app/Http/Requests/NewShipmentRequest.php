@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\UserClient;
 
 class NewShipmentRequest extends FormRequest
 {
@@ -31,6 +32,7 @@ class NewShipmentRequest extends FormRequest
             'details' => 'nullable|string',
             'documents' => 'required|array',
             'documents.*' => 'file|mimes:pdf,doc,docx,jpg,png,webp,jpeg|max:2048',
+            'client_id' => ['required', new UserClient()],
         ];
     }
 }

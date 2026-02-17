@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Rules\UserTrucker;
+use App\Rules\UserClient;
 class UpdateShipmentRequest extends FormRequest
 {
  
@@ -20,10 +21,8 @@ class UpdateShipmentRequest extends FormRequest
             'price' => 'required|integer',
             'status' => 'required|string|in:in_progress,unassigned,completed,problem',
             'details' => 'nullable|string',
-            'user_id' => [
-                'required',
-               new UserTrucker(),
-            ],
+            'user_id' => ['required', new UserTrucker(),],
+            'client_id' => ['required', new UserClient()],
         ];
     }
 }

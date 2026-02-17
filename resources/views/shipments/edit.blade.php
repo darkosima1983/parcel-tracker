@@ -80,7 +80,17 @@
         >
     </div>
 
-
+     <div class="mb-3">
+        <label class="form-label">Client ID</label>
+        <input 
+            type="number" 
+            name="client_id" 
+            class="form-control" 
+            value="{{ old('client_id', $shipment->client_id) }}"
+            min="1"
+            required
+        >
+    </div>
 
     <div class="mb-3">
         <label class="form-label">Documents</label>
