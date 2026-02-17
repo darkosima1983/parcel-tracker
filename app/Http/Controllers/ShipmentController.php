@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\ShipmentDocument;
 use App\Traits\ImageUploadTrait;
 use App\Http\Requests\UpdateShipmentRequest;
+use Illuminate\Support\Facades\Gate;
 class ShipmentController extends Controller
 {
     use ImageUploadTrait;
@@ -31,6 +32,7 @@ class ShipmentController extends Controller
      */
    public function create()
     {
+         Gate::authorize('showCreate', Shipment::class);
          $truckers = User::where('role', User::ROLE_TRUCKER)->get();
         return view('shipments.create', compact('truckers'));
     }
@@ -42,6 +44,8 @@ class ShipmentController extends Controller
      */
     public function store(NewShipmentRequest $request)
     {
+        Gate::authorize('create', Shipment::class);
+
         $data = $request->validated();
         $shipment = Shipment::create($data);
 

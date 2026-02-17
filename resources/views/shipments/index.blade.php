@@ -5,9 +5,11 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>📦 All Shipments</h2>
-    <a href="{{ route('shipments.create') }}" class="btn btn-primary">
-        + Add Shipment
-    </a>
+    @can('showCreate', App\Models\Shipment::class)
+        <a href="{{ route('shipments.create') }}" class="btn btn-primary">
+            + Add Shipment
+        </a>
+    @endcan
 </div>
 
 @if(session('success'))
