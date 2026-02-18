@@ -99,6 +99,7 @@ class ShipmentController extends Controller
      */
     public function show(Shipment $shipment)
     {
+        Gate::authorize('view', $shipment);
         return view('shipments.details', compact('shipment'));
     }
 
@@ -109,8 +110,8 @@ class ShipmentController extends Controller
     public function edit(Shipment $shipment)
     {
         
-       $truckers = User::where('role', User::ROLE_TRUCKER)->get();
-        return view('shipments.edit', compact('shipment', 'truckers'));
+       Gate::authorize('showEdit', $shipment);
+        return view('shipments.edit', compact('shipment'));
     }
 
     /**

@@ -21,7 +21,6 @@
                     </h2>
                     <div>
                         <img src="/storage/images/avatars/{{ Auth::user()->image ?? 'default.png' }}" alt="Profile Image" class="w-32 h-32 rounded-full mt-4">
-
                     </div>
 
                     <form method="POST"
