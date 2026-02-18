@@ -20,7 +20,7 @@ class ShipmentController extends Controller
             $shipments = Cache::remember(
             'shipments_unassigned',
             now()->addMinutes(10),
-            fn()=> Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get()
+            fn()=> Shipment::Unassigned()->get()
         );
        
         return view('shipments.index', compact('shipments'));
