@@ -29,6 +29,12 @@ class Shipment extends Model
             }
         });
         
+        static::updated(function($shipment){
+            Cache::forget('shipments_unassigned');
+        });
+        static::deleted(function($shipment){
+            Cache::forget('shipments_unassigned');
+        });
     }
     
         const STATUS_IN_PROGRESS = 'in_progress';

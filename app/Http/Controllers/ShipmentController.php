@@ -11,6 +11,7 @@ use App\Models\ShipmentDocument;
 use App\Traits\ImageUploadTrait;
 use App\Http\Requests\UpdateShipmentRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\RedirectResponse;
 class ShipmentController extends Controller
 {
     use ImageUploadTrait;
@@ -119,6 +120,7 @@ class ShipmentController extends Controller
      */
     public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
+        Cache::forget('shipments_unassigned');
         $shipment->update($request->validated());
         return redirect()->route('shipments.index')
                          ->with('success', 'Shipment updated successfully.');
@@ -134,6 +136,20 @@ class ShipmentController extends Controller
         Cache::forget('shipments_unassigned');
 
         return back()->with('success', 'Shipment deleted.');
+    }
+
+    public function assignUser(Request $request, Shipment $shipment): RedirectResponse
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $shipment->update(['user_id' => $request->input('user_id')]);
+        $shipment->update(['status' => Shipment::STATUS_IN_PROGRESS]);
+
+        Cache::forget('shipments_unassigned');
+
+        return redirect()->route('shipments.index')->with('success', 'Shipment assigned successfully.');
     }
 
 }

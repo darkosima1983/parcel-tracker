@@ -33,6 +33,7 @@
                     <th>Status</th>
                     <th>Price (€)</th>
                     <th>Aktionen</th> 
+                    <th>Sendung zuweisen</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +55,18 @@
                             <a href="{{ route('shipments.edit', $shipment->id) }}" class="btn btn-sm btn-warning">
                                 Bearbeiten
                             </a>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ route('shipments.assignUser', $shipment->id) }}">
+                                @csrf
+                                <select name="user_id" class="form-select form-select-sm mb-2">
+                                    <option selected disabled>None</option>
+                                    @foreach(\App\Models\User::all() as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-success">Zuweisen</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
