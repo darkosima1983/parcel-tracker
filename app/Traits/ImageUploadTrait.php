@@ -24,7 +24,7 @@ trait ImageUploadTrait
     }
 
     
-    public function deleteImage(?string $imageName, string $path = 'images'): bool
+    public function deleteImage(string $imageName, string $path = 'images'): bool
     {
         if ($imageName === null) {
             return false;

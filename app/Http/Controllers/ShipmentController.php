@@ -88,7 +88,7 @@ class ShipmentController extends Controller
         }
        
 
-        Cache::forget('shipments_unassigned');
+        //Cache::forget('shipments_unassigned');
 
         return redirect()->route('shipments.index')
                         ->with('success', 'Shipment created successfully.');
@@ -120,7 +120,7 @@ class ShipmentController extends Controller
      */
     public function update(UpdateShipmentRequest $request, Shipment $shipment)
     {
-        Cache::forget('shipments_unassigned');
+        
         $shipment->update($request->validated());
         return redirect()->route('shipments.index')
                          ->with('success', 'Shipment updated successfully.');
@@ -133,7 +133,7 @@ class ShipmentController extends Controller
     {
         $shipment->delete();
 
-        Cache::forget('shipments_unassigned');
+       
 
         return back()->with('success', 'Shipment deleted.');
     }
@@ -144,10 +144,9 @@ class ShipmentController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $shipment->update(['user_id' => $request->input('user_id')]);
-        $shipment->update(['status' => Shipment::STATUS_IN_PROGRESS]);
-
-        Cache::forget('shipments_unassigned');
+        $shipment->user_id = $request->user_id;
+        $shipment->status = Shipment::STATUS_IN_PROGRESS;
+        $shipment->save();
 
         return redirect()->route('shipments.index')->with('success', 'Shipment assigned successfully.');
     }

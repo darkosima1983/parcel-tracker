@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
+
 class Shipment extends Model
 {
     use HasFactory;
@@ -22,20 +23,7 @@ class Shipment extends Model
         'details',
         'client_id',
     ];
-    public static function booted(){
-        static::created(function($shipment){
-            if($shipment->status === Shipment::STATUS_UNASSIGNED){
-                Cache::forget('shipments_unassigned');
-            }
-        });
-        
-        static::updated(function($shipment){
-            Cache::forget('shipments_unassigned');
-        });
-        static::deleted(function($shipment){
-            Cache::forget('shipments_unassigned');
-        });
-    }
+
     
         const STATUS_IN_PROGRESS = 'in_progress';
         const STATUS_UNASSIGNED  = 'unassigned';
