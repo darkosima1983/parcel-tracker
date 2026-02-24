@@ -74,4 +74,6 @@
         </table>
     </div>
 @endif
+
+@livewire('shipment-assigned-list')
 @endsection
