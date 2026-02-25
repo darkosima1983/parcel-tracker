@@ -3,6 +3,8 @@
 @section('title', 'Add Shipment')
 
 @section('content')
+
+@livewire('create-shipment')
 <h2 class="mb-4">➕ Add New Shipment</h2>
 
 @if ($errors->any())

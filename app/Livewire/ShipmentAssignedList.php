@@ -30,4 +30,15 @@ class ShipmentAssignedList extends Component
         }
     }
 
+    public function validateAmount()
+    {
+        if ($this->amount < 1) {
+            $this->errorMessage = 'Amount must be at least 1.';
+            
+        }else {
+            $this->errorMessage = '';
+        }
+       
+    }
+
 }
