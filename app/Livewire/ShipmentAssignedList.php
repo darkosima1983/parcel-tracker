@@ -8,12 +8,26 @@ use App\Models\User;
 
 class ShipmentAssignedList extends Component
 {
+    public $clickCount = 0;
+    public $amount = 1;
+    public $errorMessage = '';
     public function render()
     {
-        $shipments = Shipment::where('status', Shipment::STATUS_UNASSIGNED)->get();
-        
-        return view('livewire.shipment-assigned-list', [
-            'shipments' => $shipments,
-        ]);
+        return view('livewire.shipment-assigned-list');
     }
+    public function increment()
+    {
+        $this->clickCount+=$this->amount;
+        $this->errorMessage = '';
+    }   
+    public function decrement()
+    {
+        $result = $this->clickCount - $this->amount;
+        if($result >= 0){
+            $this->clickCount -= $this->amount;
+        } else {
+            $this->errorMessage = 'Cannot decrement below zero.';
+        }
+    }
+
 }
