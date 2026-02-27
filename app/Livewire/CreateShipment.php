@@ -3,7 +3,7 @@
 namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Shipment;    
-
+use App\Models\User;
 class CreateShipment extends Component
 {
     public string $title;
@@ -17,9 +17,21 @@ class CreateShipment extends Component
     public int $client_id;
     public string $clientError;
 
-    public function validateClient()
+      public function validateClient()
     {
-        $this->clientError = 'Ovaj klijent ne postoji.';
+       /* $client = User::firstWhere('id', $this->client_id);
+
+      $this->clientError = $client ? '' : 'Client ID does not exist.';*/
+       /* if (!$client) {
+            $this->clientError = 'Client ID does not exist.';
+        } else {
+            $this->clientError = '';
+        }*/
+
+             $this->validate([
+            'client_id' => 'required|exists:users,id',
+        ]);
+
     }
     
     public function render()

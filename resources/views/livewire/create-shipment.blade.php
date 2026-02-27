@@ -39,6 +39,7 @@
 
       <div class="mb-3">
         <label for="client_id" class="form-label">Client ID</label>
+        @error('client_id') <p class="text-danger">{{ $message }}</p> @enderror
         <p>{{ $clientError}}</p>
         <input type="number" wire:blur="validateClient" wire:model.live.debounce.500ms="client_id" class="form-control" required>
     </div>
