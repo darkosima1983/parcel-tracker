@@ -1,7 +1,11 @@
 
 <div>
-    <form>
-   
+    <h2 class="mb-4">➕ Add New Shipment</h2>
+    <form wire:submit="submit" enctype="multipart/form-data">
+
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger">{{ $error }}</div>
+        @endforeach
 
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -45,10 +49,34 @@
     </div>
 
     <div class="mb-3">
-        <select wire:model="status">
-        @foreach($statuses as $status)
-            <option value="{{ $status }}" >{{ $status}}</option>
-        @endforeach
+        <label class="form-label">Status</label>
+        <select wire:model="status" class="form-control">
+           @foreach($statuses as $key => $value)
+           <option value="{{ $key }}" >{{ $value }}</option>
+           @endforeach
         </select>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label">Documents</label>
+        <input
+            type="file"
+            wire:model="documents"
+            class="form-control"
+            multiple
+            accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx"
+        >
+        <small class="text-muted">
+            You can upload multiple documents (PDF, JPG, PNG, WebP, Word)
+        </small>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Details</label>
+        <textarea wire:model="details" class="form-control" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">
+        Save Shipment
+    </button>
+    </form>
 </div>

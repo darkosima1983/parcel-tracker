@@ -2,10 +2,15 @@
 
 namespace App\Livewire;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\Shipment;    
 use App\Models\User;
+use App\Http\Requests\NewShipmentRequest;
+use App\Services\ShipmentService;
 class CreateShipment extends Component
 {
+    use WithFileUploads;
+
     public string $title;
     public string $from_city;
     public string $from_state;  
@@ -14,8 +19,11 @@ class CreateShipment extends Component
     public string $price;
     public array $statuses = [];
     public string $status = '';
+    public ?int $user_id = null;
     public int $client_id;
     public string $clientError;
+    public array $documents = [];
+    public string $details = '';
 
       public function validateClient()
     {
@@ -37,7 +45,7 @@ class CreateShipment extends Component
     public function render()
     {
             return view('livewire.create-shipment');
-        }
+    }
 
     public function mount()
     {
@@ -49,4 +57,10 @@ class CreateShipment extends Component
         ];
     }
 
+    public function submit(ShipmentService $shipmentService)
+    {
+        $request = new NewShipmentRequest();
+        $response = $this->validate($request->rules());
+        $shipmentService->store($response);
+    }
 }
